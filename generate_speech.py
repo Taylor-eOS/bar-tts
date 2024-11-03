@@ -1,9 +1,18 @@
 from bark import generate_audio
 from scipy.io.wavfile import write
+import numpy as np
 
-# The text to be converted into speech
-text_prompt = "[young scottish boy] Author of the danger trail, Philip Steels, etc. Not at this particular case, Tom, apologized Whittemore. For the twentieth time that evening the two men shook hands. Lord, but I'm glad to see you again, Phil."
+sentences = [
+    "It is not a concern.",
+    "We can figure this out.",
+    "I wanted to tell you about this."
+]
+speaker_tag = "[Book narrator]"
 
-audio_array = generate_audio(text_prompt)
-write("bark_test_voice.wav", 22050, audio_array)
+all_audio = np.array([])
+for sentence in sentences:
+    text_prompt = f"{speaker_tag} {sentence}"
+    audio_array = generate_audio(text_prompt)
+    all_audio = np.concatenate((all_audio, audio_array))
+write("bark_combined_test.wav", 22050, all_audio)
 
